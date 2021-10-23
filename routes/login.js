@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const handle = require("../connection");
 var router = express.Router();
 
-const authenticate = (req, res) => {
+router.post("/", (req, res) => {
   const user = req.body.user;
   const pw = req.body.pw;
 
@@ -16,11 +16,9 @@ const authenticate = (req, res) => {
         process.env.TOKEN_SIGN
       );
 
-      res.send(token);
+      res.send({ status: "success", token: token });
     }
   );
-};
-
-router.post("/", authenticate, (req, res) => {});
+});
 
 module.exports = router;
