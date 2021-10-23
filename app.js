@@ -2,16 +2,19 @@ const express = require("express");
 const mysql = require("mysql");
 const app = express();
 var handle = require("./connection");
+const cors = require("cors");
 
 //routes
 const login = require("./routes/login.js");
 const register = require("./routes/register");
 app.use(express.json());
 
+app.use(cors());
+
 app.use("/login", login);
 app.use("/register", register);
 
-app.listen(3000, () => {
+app.listen(8080, () => {
   console.log("Server started, connecting with the database...");
 
   handle.connect((err) => {

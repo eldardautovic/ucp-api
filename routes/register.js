@@ -12,9 +12,7 @@ router.post("/", (req, res) => {
     `SELECT * FROM users WHERE username = '${user}'`,
     (err, rows) => {
       if (rows.length)
-        return res.send({
-          error: "There is already a user with that username.",
-        });
+        return res.status(400).send("There is someone already registered.");
 
       const hashedPw = bcrypt.hashSync(pw, 10);
 
