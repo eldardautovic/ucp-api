@@ -1,2 +1,3 @@
-# ucp-api
-A simple API created for my recent User Control Panel.
+# UCP API
+
+This is a simple RESTful API written in node.js with some simple authentication.
