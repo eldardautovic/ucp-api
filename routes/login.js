@@ -1,24 +1,36 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const handle = require("../connection");
+const bcrypt = require('bcrypt');
 var router = express.Router();
 
 router.post("/", (req, res) => {
   const user = req.body.user;
   const pw = req.body.pw;
 
-  handle.query(
-    `SELECT * FROM users WHERE username = '${user}' AND password = '${pw}'`,
-    (err, rows) => {
-      if (!rows.length) return res.sendStatus(403);
-      const token = jwt.sign(
-        { user: user, signed: true },
-        process.env.TOKEN_SIGN
-      );
+  handle.query(`SELECT password FROM users WHERE username = '${user}'`, (err, rows) => {
+    if(!rows.length) return res.status(403).send("Wrong usernames.");
 
-      res.send({ status: "success", token: token });
-    }
-  );
+    const comparedPw = bcrypt.compareSync(pw, rows[0].password);
+
+    if(!comparedPw)
+      return res.status(403).send("Wrong password.");
+  
+    handle.query(
+      `SELECT * FROM users WHERE username = '${user}'`,
+      (err, rows) => {
+        if (!rows.length) return res.sendStatus(403);
+        const token = jwt.sign(
+          { user: user, signed: true },
+          process.env.TOKEN_SIGN
+        );
+  
+        res.send({ status: "success", token: token });
+    });
+  });
+  
+
 });
+
 
 module.exports = router;
