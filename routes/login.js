@@ -21,11 +21,16 @@ router.post("/", (req, res) => {
       (err, rows) => {
         if (!rows.length) return res.sendStatus(403);
         const token = jwt.sign(
-          { user: user, signed: true },
+          { user: user, signed: true,  admin: rows[0].admin == 1 ? true : false },
           process.env.TOKEN_SIGN
         );
+
+        const obj = {
+          status: "success",
+          token: token
+        }
   
-        res.send({ status: "success", token: token });
+        res.send(obj);
     });
   });
   
