@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get("/", (req, res) => {
 
-  handle.query(`SELECT * FROM announcments`, (err, rows) => {
+  handle.query(`SELECT * FROM announcments ORDER BY id DESC LIMIT 4 `, (err, rows) => {
     if(!rows.length) 
         return res.send([]);
 
