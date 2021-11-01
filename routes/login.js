@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const handle = require("../connection");
 const bcrypt = require('bcrypt');
+const endpointLog = require('../utils/logging');
 var router = express.Router();
 
 router.post("/", (req, res) => {
@@ -31,6 +32,8 @@ router.post("/", (req, res) => {
         }
   
         res.send(obj);
+
+        endpointLog("/login", "POST");
     });
   });
   
