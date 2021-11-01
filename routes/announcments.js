@@ -1,5 +1,6 @@
 const express = require("express");
 const handle = require("../connection");
+const endpointLog = require('../utils/logging');
 const bcrypt = require("bcrypt");
 var router = express.Router();
 
@@ -10,6 +11,9 @@ router.get("/", (req, res) => {
         return res.send([]);
 
     res.send(rows);
+
+    endpointLog("/announcments", "GET");
+
   });
  
 });

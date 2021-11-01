@@ -2,6 +2,7 @@ const express = require("express");
 const handle = require("../connection");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const endpointLog = require('../utils/logging');
 var router = express.Router();
 
 router.post("/", (req, res) => {
@@ -26,7 +27,8 @@ router.post("/", (req, res) => {
             process.env.TOKEN_SIGN
           );
 
-          res.send({ status: "success", token: token });
+            res.send({ status: "success", token: token });
+            endpointLog("/register", "POST");
         }
       );
     }
